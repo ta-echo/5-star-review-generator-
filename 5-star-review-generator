@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des notes</title>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+//5-Star-Review-Generator
+
+<?php
+function generate_note_image($note)
+{
+  if ($note < 0)
+    $note = 0;
+  if ($note > 5)
+    $note = 5;
+
+  $nb_etoile_vide = 5 - $note;
+
+  for ($i = 0; $i < $note; ++$i)
+    echo '<img src="assets/star-on.png"/>';
+
+  for ($i = 0; $i < $nb_etoile_vide; ++$i)
+    echo '<img src="assets/star-off.png"/>';
+}
+?>
+
+<table>
+  <caption>BackOffice / Gestion des notes</caption>
+  <thead class="bg-info">
+    <tr>
+      <th scope="col">Note</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+   <?php
+    $content = "";
+    $results = $pdo->query("SELECT * FROM note");
+    while($item = $results->fetch()) {
+   ?>  
+   
+   <tr>
+   <td><?php echo generate_note_image(htmlspecialchars($item["note"])) ?></td>
+   </td>
+   </tr>
+   
+    <?php
+    }
+    ?>
+    
+  </tbody>
+</table>
+</body>
+</html>
